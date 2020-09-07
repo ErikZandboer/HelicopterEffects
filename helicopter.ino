@@ -120,7 +120,7 @@ void loop()
                                 {
                                         MainMotorState = MOTORRUN;
                                 }
-                                analogWrite(MOTOR,MotorSpeed);
+                                analogWrite(MOTOR,MainMotorSpeed);
                         }
                         break;
                 case MOTORRUN:
@@ -151,7 +151,7 @@ void loop()
                                 {
                                         RearMotorState = MOTORRUN;
                                 }
-                                analogWrite(RMOTOR,MotorSpeed);
+                                analogWrite(RMOTOR,RearMotorSpeed);
                         }
                         break;
                 case MOTORRUN:
