@@ -56,9 +56,6 @@ void setup()
         pinMode (MOTOR,     OUTPUT);
         pinMode (RMOTOR,    OUTPUT);
         pinMode (SOLIDLED,  OUTPUT);
-        
-        // Init the MP3 module
-	delay(500);                        //Wait until MP3 chip initialization is complete
 }
 
 // This loops forever.
@@ -75,6 +72,10 @@ void loop()
         {
                 Hundreds = 0;   // Counts up to a single second, then increase the RunTime
                 RunTime++;
+		if (RunTime == 1)  // Start playing the sample 1 second into the program
+		{
+			mp3.playWithVolume(1,26);  // Play the first mp3 on the card at volume 26 (max is 30)
+		}
         }
 
         // Here we check if any led should still be running; Stop a few seconds after the engine stops
@@ -108,7 +109,6 @@ void loop()
                                 analogWrite(RMOTOR,255);        // Kick the motor at full speed to make sure it starts turning
                                 MotorSpeed = 10;        // ... MotorRevv will slow down the motor again after 1/20th of a second.
                                 MotorState = MOTORREVV;
-				mp3.playWithVolume(1,26);  // Play the first mp3 on the card at volume 26 (max is 30)
                         }
                         break;
                 case MOTORREVV:
