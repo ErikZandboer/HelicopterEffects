@@ -8,8 +8,8 @@
 /* 1.10            Added a second blinking group and a second motor control (main and rear)   */
 /* 1.11            Bugfix around BlinkTimer: Checked for zero were lowest indent is 1.Fixed.  */
 /* 1.20            Added basic support for mp3 player                                         */
-/* 1.21		   Changed the basic support for MP3 to now use the RedMP3.h library          */
-/* 1.22		   Added a separate state machine to differentiate between the 2 motors.      */
+/* 1.21            Changed the basic support for MP3 to now use the RedMP3.h library          */
+/* 1.22            Added a separate state machine to differentiate between the 2 motors.      */
 /*--------------------------------------------------------------------------------------------*/
 
 // Includes
@@ -48,11 +48,11 @@ byte    RearMotorState = MOTOROFF;
 // This runs only once when powering on
 void setup()
 {
-        digitalWrite(BLINKLED,LOW);  // Blinking led group starts OFF
-        digitalWrite(BLINKLED2,LOW); // Blinking led group 2 starts OFF
-        digitalWrite(MOTOR,LOW);     // Motor is OFF
-        digitalWrite(RMOTOR,LOW);    // Rear Motor is OFF
-        digitalWrite(SOLIDLED,HIGH); // Solid leds are always ON
+        digitalWrite(BLINKLED, LOW);     // Blinking led group starts OFF
+        digitalWrite(BLINKLED2,LOW);     // Blinking led group 2 starts OFF
+        digitalWrite(MOTOR,    LOW);     // Motor is OFF
+        digitalWrite(RMOTOR,   LOW);     // Rear Motor is OFF
+        digitalWrite(SOLIDLED, HIGH);    // Solid leds are always ON
 
         pinMode (BLINKLED2, OUTPUT);
         pinMode (BLINKLED,  OUTPUT);
@@ -75,9 +75,9 @@ void loop()
         {
                 Hundreds = 0;   // Counts up to a single second, then increase the RunTime
                 RunTime++;
-		// The code below runs once a second.
-		if (RunTime == 1)  mp3.playWithVolume(1,26);  // Play the first mp3 on the card at volume 26 (max is 30)
-		if (RunTime == 70) mp3.stopPlay(); // Stop playing after the show is over
+                // The code below runs once a second.
+                if (RunTime == 1)  mp3.playWithVolume(1,26);  // Play the first mp3 on the card at volume 26 (max is 30)
+                if (RunTime == 70) mp3.stopPlay(); // Stop playing after the show is over
         }
 
         // Here we check if any led should still be running; Stop a few seconds after the engine stops
@@ -85,18 +85,15 @@ void loop()
         {
                 // HANDLE BLINKTIMER. Currently on a 0.5s frequency and lights both groups for 0.1s, 0.2s apart.
                 BlinkTimer++;
-                if (BlinkTimer == 1 ) digitalWrite(BLINKLED,HIGH);
-                if (BlinkTimer == 11) digitalWrite(BLINKLED,LOW);
-                if (BlinkTimer == 31) digitalWrite(BLINKLED2,HIGH);
-                if (BlinkTimer == 41) digitalWrite(BLINKLED2,LOW);
-                if (BlinkTimer >  149)
-                {
-                        BlinkTimer = 0;
-                }
+                if (BlinkTimer == 1  ) digitalWrite(BLINKLED,HIGH);
+                if (BlinkTimer == 11 ) digitalWrite(BLINKLED,LOW);
+                if (BlinkTimer == 31 ) digitalWrite(BLINKLED2,HIGH);
+                if (BlinkTimer == 41 ) digitalWrite(BLINKLED2,LOW);
+                if (BlinkTimer >  149) BlinkTimer = 0;
         }
         else    // After 73 seconds kill the blinkleds and kill the solid leds.
         {
-                digitalWrite(BLINKLED,LOW);
+                digitalWrite(BLINKLED, LOW);
                 digitalWrite(BLINKLED2,LOW);
                 digitalWrite(SOLIDLED, LOW);
         }
@@ -105,7 +102,7 @@ void loop()
         switch (MainMotorState)
         {
                 case MOTOROFF:
-			if (RunTime == 10)      // Start revving the main rotor after +-10 seconds
+                        if (RunTime == 10)      // Start revving the main rotor after +-10 seconds
                         {
                                 analogWrite(MOTOR,255); // Kick the motor at full speed to make sure it starts turning
                                 MainMotorSpeed = 10;        // ... MotorRevv will slow down the motor again after 1/20th of a second.
@@ -116,15 +113,12 @@ void loop()
                         if ((Hundreds % 10) == 0) // 1/20th of seconds so revving up will take 25 seconds
                         {
                                 MainMotorSpeed++;
-                                if (MainMotorSpeed == 255)
-                                {
-                                        MainMotorState = MOTORRUN;
-                                }
+                                if (MainMotorSpeed == 255) MainMotorState = MOTORRUN;
                                 analogWrite(MOTOR,MainMotorSpeed);
                         }
                         break;
                 case MOTORRUN:
-                        if (RunTime == 90)	// Should run 1:20
+                        if (RunTime == 90)  // Should run 1:20
                         {
                                 MainMotorState = MOTOROFF;
                                 analogWrite(MOTOR,0);
@@ -147,10 +141,7 @@ void loop()
                         if ((Hundreds % 5) == 0) // 1/20th of seconds so revving up will take 12.25 seconds
                         {
                                 RearMotorSpeed++;
-                                if (RearMotorSpeed == 255)
-                                {
-                                        RearMotorState = MOTORRUN;
-                                }
+                                if (RearMotorSpeed == 255) RearMotorState = MOTORRUN;
                                 analogWrite(RMOTOR,RearMotorSpeed);
                         }
                         break;
@@ -165,7 +156,6 @@ void loop()
                         RearMotorState = MOTOROFF;
         }
 
-	
         // Reset after 15 minutes and start over
         if (RunTime == 15*60)
         {
