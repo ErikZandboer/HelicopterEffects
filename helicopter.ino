@@ -72,6 +72,7 @@ void loop()
         {
                 Hundreds = 0;   // Counts up to a single second, then increase the RunTime
                 RunTime++;
+		// The code below runs once a second.
 		if (RunTime == 1)  // Start playing the sample 1 second into the program
 		{
 			mp3.playWithVolume(1,26);  // Play the first mp3 on the card at volume 26 (max is 30)
@@ -103,7 +104,7 @@ void loop()
         switch (MotorState)
         {
                 case MOTOROFF:
-                        if (RunTime == 30)      // Start revving after 30 seconds
+                        if (RunTime == 26)      // Start revving after 30 seconds
                         {
                                 analogWrite(MOTOR,255); // Kick the motor at full speed to make sure it starts turning
                                 analogWrite(RMOTOR,255);        // Kick the motor at full speed to make sure it starts turning
