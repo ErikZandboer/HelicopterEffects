@@ -118,7 +118,7 @@ void loop()
                         }
                         break;
                 case MOTORRUN:
-                        if (RunTime == 90)  // Should run 1:20
+                        if (RunTime == 70)  // Should run 1:20
                         {
                                 MainMotorState = MOTOROFF;
                                 analogWrite(MOTOR,0);
@@ -146,7 +146,7 @@ void loop()
                         }
                         break;
                 case MOTORRUN:
-                        if (RunTime == 90)
+                        if (RunTime == 70)
                         {
                                 RearMotorState = MOTOROFF;
                                 analogWrite(RMOTOR,0);
