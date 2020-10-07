@@ -132,7 +132,6 @@ void loop()
                 case MOTOROFF:
                         if (RunTime == 30)      // Start revving after 30 seconds
                         {
-                                analogWrite(RMOTOR,255);        // Kick the motor at full speed to make sure it starts turning
                                 RearMotorSpeed = 10;        // ... MotorRevv will slow down the motor again after 1/20th of a second.
                                 RearMotorState = MOTORREVV;
                         }
